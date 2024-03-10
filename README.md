@@ -1,5 +1,4 @@
-# MSIN0166 Data Engineering 23/24
-# Group Data Engineering Project
+# MSIN0166 Data Engineering 23/24 Group Project
 
 ## Data Engineering Project on Data Collection, Processing, and Storage for Business Analytics
 ### Project Overview
