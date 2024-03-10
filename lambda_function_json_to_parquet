@@ -1,3 +1,21 @@
+"""
+AWS Lambda function for processing JSON files from an S3 bucket and storing the extracted data in Parquet format.
+
+This Lambda function listens to an S3 bucket for new JSON files. Upon detecting a new file, it reads the JSON data,
+extracts the required columns, and stores the processed data in Parquet format in another location specified by
+environment variables. The function utilizes AWS Glue Catalog to maintain metadata about the stored data.
+
+Environment Variables:
+- s3_cleansed_layer: The S3 path where the processed data will be stored in Parquet format.
+- glue_catalog_db_name: The name of the AWS Glue catalog database.
+- glue_catalog_table_name: The name of the table in the AWS Glue catalog.
+- write_data_operation: The mode of operation for writing data (e.g., 'overwrite', 'append').
+
+Libraries Used:
+- awswrangler: A utility library that allows to access files from S3
+
+"""
+
 import awswrangler as wr
 import pandas as pd
 import urllib.parse
