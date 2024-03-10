@@ -1,0 +1,10 @@
+import awswrangler as wr
+import pandas as pd
+import urllib.parse
+import os
+
+# Retrieving environment variables
+os_input_s3_cleansed_layer = os.environ['s3_cleansed_layer']
+os_input_glue_catalog_db_name = os.environ['glue_catalog_db_name']
+os_input_glue_catalog_table_name = os.environ['glue_catalog_table_name']
+os_input_write_data_operation = os.environ['write_data_operation']
