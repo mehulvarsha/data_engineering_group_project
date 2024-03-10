@@ -6,6 +6,15 @@ Import necessary modules and initialize the Glue job with provided arguments.
 Create a dynamic frame from CSV data stored in an S3 bucket.
 Options are specified to handle CSV format and to specify options like quote character, header presence, and separator.
 
+3. Applying Mapping:
+Apply mapping to the dynamic frame to rename fields and cast them to appropriate data types.
+This step ensures consistency in the schema and prepares the data for further processing.
+
+4. Writing Transformed Data:
+Write the transformed data to another S3 location in Glue Parquet format.
+Partition the data based on the "region" column.
+Use Snappy compression for optimized storage.
+
 import sys
 from awsglue.transforms import *
 from awsglue.utils import getResolvedOptions
