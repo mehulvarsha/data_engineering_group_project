@@ -1,4 +1,12 @@
 
+"""
+YouTube Video Data Scraper
+
+This script fetches video data from the YouTube Data API for various countries, including video statistics and metadata,
+and saves the results as CSV files. It aims to collect comprehensive information about trending videos in different regions.
+
+"""
+
 # requests: for making HTTP requests.
 # sys: for interacting with the Python interpreter.
 # time: for handling time-related operations.
@@ -182,3 +190,20 @@ def fetch_and_write_data():
         country_data = [",".join(column_header)] + fetch_all_pages(country_code)
         # Write the retrieved data to files
         write_to_files(country_code, country_data)
+
+if __name__ == "__main__":
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--key_path', help='Path to the file containing the api key, by default will use api_key.txt in the same directory', default='api_key.txt')
+    parser.add_argument('--country_code_path', help='Path to the file containing the list of country codes to scrape, by default will use country_codes.txt in the same directory', default='country_codes.txt')
+    parser.add_argument('--output_dir', help='Path to save the outputted files in', default='output/')
+
+    # Set the output directory
+    args = parser.parse_args()
+    output_dir = args.output_dir
+    
+    # Read API key and country codes from files
+    api_key, country_codes = api_country_code_read(args.key_path, args.country_code_path)
+
+    # Fetch and write video data for each country
+    fetch_and_write_data()
