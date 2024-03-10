@@ -1,3 +1,10 @@
+Description:
+1. Initialization:
+Import necessary modules and initialize the Glue job with provided arguments.
+
+2. Creating Dynamic Frame:
+Create a dynamic frame from CSV data stored in an S3 bucket.
+Options are specified to handle CSV format and to specify options like quote character, header presence, and separator.
 
 import sys
 from awsglue.transforms import *
