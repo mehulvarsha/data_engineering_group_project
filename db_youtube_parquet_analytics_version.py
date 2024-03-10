@@ -48,7 +48,24 @@ glueContext = GlueContext(sc)
 # Get SparkSession from GlueContext
 spark = glueContext.spark_session
 
+# Initialize Glue job
+job = Job(glueContext)
+job.init(args['JOB_NAME'], args)
 
+# Create dynamic frames from AWS Glue Data Catalog tables
+AWSGlueDataCatalog_node1709012265236 = glueContext.create_dynamic_frame.from_catalog(database='db_youtube_cleaned', table_name='region___hive_default_partition__', transformation_ctx='AWSGlueDataCatalog_node1709012265236')
+# Create another dynamic frame from the 'cleaned_statistics _reference_data' table in the same database
+AWSGlueDataCatalog_node1709012255797 = glueContext.create_dynamic_frame.from_catalog(database='db_youtube_cleaned', table_name='cleaned_statistics_reference_data', transformation_ctx='AWSGlueDataCatalog_node1709012255797')
+
+# Join dynamic frames on the 'category_id' column
+Join_node1709012273547 = Join.apply(frame1=AWSGlueDataCatalog_node1709012265236, frame2=AWSGlueDataCatalog_node1709012255797, keys1=['category_id'], keys2=['id'], transformation_ctx='Join_node1709012273547')
+
+# Write joined dynamic frame to Amazon S3
+AmazonS3_node1709012636982 = glueContext.getSink(path='s3://de0166-youtube-analytics-eunorth1-dev', connection_type='s3', updateBehavior='UPDATE_IN_DATABASE', partitionKeys=['category_id'], enableUpdateCatalog=True, transformation_ctx='AmazonS3_node1709012636982')
+AmazonS3_node1709012636982.setCatalogInfo(catalogDatabase='db_youtube_analytics', catalogTableName='raw_analytics')
+AmazonS3_node1709012636982.setFormat('glueparquet', compression='snappy')
+# Write the joined frame to the specified S3 location
+AmazonS3_node1709012636982.writeFrame(Join_node1709012273547)
 
 # Commit the job
 job.commit()
