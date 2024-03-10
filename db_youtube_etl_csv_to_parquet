@@ -1,3 +1,4 @@
+"""
 Description:
 1. Initialization:
 Import necessary modules and initialize the Glue job with provided arguments.
@@ -14,6 +15,11 @@ This step ensures consistency in the schema and prepares the data for further pr
 Write the transformed data to another S3 location in Glue Parquet format.
 Partition the data based on the "region" column.
 Use Snappy compression for optimized storage.
+5. Committing Job:
+Commit the Glue job, indicating successful execution.
+"""
+
+# import necessary libraries
 
 import sys
 from awsglue.transforms import *
